@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+        .hidden{
+            position: absolute;
+            top: -500px;
+            left: -5000px;
+        }
+        #textbox {
+            border: 1px solid black;
+            width: 500px;
+            min-height:50px;
+        }
+        .newHashTag {
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <textarea name="textentry" id="hideThisTextEntry" class="hidden"></textarea>
+    <div id="textbox"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var hashTagStartTag = '<span class="newHashTag">';
+    var hashTagEndTag = '</span>';
+    $( document ).ready(function() {
+        $("#textbox").click(function () {
+            $("#hideThisTextEntry").focus();
+        });
+        $("#hideThisTextEntry").keyup(function () {
+            var val = $("#hideThisTextEntry").val();
+            var updated = UpdateEntry(val);
+            $("#textbox").html(updated);
+        });
+    });
+
+    function UpdateEntry(entry) {
+        var isHashTagOpen = entry.substring(entry.length - hashTagEndTag.length) === hashTagEndTag;
+        var startLooking = entry.lastIndexOf(hashTagEndTag);
+        var lastCharacter = entry.substring(entry.length - 1);
+        if (lastCharacter === '#') {
+            entry = entry.substring(0, entry.length - 1) + hashTagStartTag + '#' + hashTagEndTag;
+        }
+        return entry;
+    }
+</script>
